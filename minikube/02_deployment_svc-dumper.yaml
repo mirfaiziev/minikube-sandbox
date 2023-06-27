@@ -18,7 +18,7 @@ spec:
           image: svc-dumper
           imagePullPolicy: Never
           ports:
-            - containerPort: 8080
+            - containerPort: 8888
           resources:
             limits:
               cpu: 100m
