@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: List
+items:
+
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: svc-dumper
+    namespace: local-cluster
+    labels:
+      name: svc-dumper
+  spec:
+    selector:
+      matchLabels:
+        app: svc-dumper
+    replicas: 1
+    template:
+      metadata:
+        labels:
+          app: svc-dumper
+      spec:
+        containers:
+          - name: svc-dumper
+            image: svc-dumper
+            imagePullPolicy: Never
+            ports:
+              - containerPort: 8888
+            resources:
+              limits:
+                cpu: 100m
+                memory: 128Mi
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: svc-dumper
+    namespace: local-cluster
+  spec:
+    type: NodePort
+    selector:
+      app: svc-dumper
+    ports:
+      - port: 8888
+        nodePort: 30888
